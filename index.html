@@ -2554,7 +2554,7 @@ function renderSeatRecords(){
 
  saved.forEach(r=>{
   const item=document.createElement("div");
-  item.className="seat-record-item";
+  item.className="seat-record";
 
   const date=document.createElement("strong");
   date.textContent=`${formatDate(r.date)} ${r.time||""}`;
