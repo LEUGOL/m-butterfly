@@ -28,7 +28,24 @@ body{
  font-family:Arial,sans-serif;
  font-size:15px;
 }
+/* 엠. 버터플라이 배경 */
+body{
+ position:relative;
+ isolation:isolate;
+}
 
+body::before{
+ content:"";
+ position:fixed;
+ inset:0;
+ z-index:-1;
+ background-image:url("m_butterfly_bg.png");
+ background-position:center center;
+ background-size:cover;
+ background-repeat:no-repeat;
+ opacity:0.28;
+ pointer-events:none;
+}
 .container{
  width:100%;
  max-width:1000px;
