@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#252124">
+<title>M. BUTTERFLY</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+ --bg:#F3F2F0;
+ --pink:#A9004F;
+ --black:#252124;
+ --wine:#64152F;
+ --line:#DED9DA;
+ --soft:#E9E5E6;
+ --muted:#898184;
+}
+
+body{
+ margin:0;
+ padding:12px 8px;
+ background:var(--bg);
+ color:var(--black);
+ font-family:Arial,sans-serif;
+ font-size:15px;
+}
+
+.container{
+ width:100%;
+ max-width:1000px;
+ margin:auto;
+}
+
+header{
+ background:var(--black);
+ color:var(--bg);
+ padding:24px 20px;
+ border-radius:10px;
+ margin-bottom:10px;
+}
+
+header h1{
+ margin:0 0 7px;
+ font-size:24px;
+ letter-spacing:2px;
+}
+
+header p{
+ margin:0;
+ font-size:14px;
+ opacity:.85;
+}
+
+section{
+ background:rgba(255,255,255,.68);
+ border:1px solid var(--line);
+ border-radius:10px;
+ padding:14px;
+ margin-bottom:10px;
+}
+
+h2{
+ color:var(--wine);
+ margin:0 0 12px;
+ font-size:18px;
+}
+
+.cast-grid{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:8px;
+}
+
+.cast-card{
+ background:rgba(169,0,79,.08);
+ padding:11px;
+ border-radius:8px;
+}
+
+.cast-card h3{
+ margin:0 0 7px;
+ color:var(--wine);
+ font-size:16px;
+}
+
+.cast-card p{
+ margin:0;
+ line-height:1.6;
+ font-size:14px;
+ white-space:nowrap;
+}
+
+.stats{
+ display:flex;
+ gap:8px;
+}
+
+.stat{
+ flex:1;
+ background:var(--soft);
+ padding:11px;
+ border-radius:8px;
+ font-size:12px;
+}
+
+.stat strong{
+ display:block;
+ font-size:27px;
+ color:var(--pink);
+ margin-bottom:2px;
+}
+
+.actor-count-list{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:8px;
+}
+
+.actor-count-card{
+ background:var(--soft);
+ padding:11px;
+ border-radius:8px;
+}
+
+.actor-count-card h3{
+ margin:0 0 8px;
+ color:var(--wine);
+ font-size:14px;
+}
+
+.actor-count-person{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:4px;
+ padding:5px 0;
+ border-bottom:1px solid var(--line);
+ font-size:13px;
+}
+
+.actor-count-person:last-child{border-bottom:0}
+
+.actor-count-number{
+ color:var(--pink);
+ font-weight:bold;
+ white-space:nowrap;
+}
+
+button,select{
+ font:inherit;
+ border:0;
+ border-radius:6px;
+ padding:10px 12px;
+}
+
+button{
+ background:var(--pink);
+ color:white;
+ cursor:pointer;
+}
+
+button.secondary{
+ background:var(--black);
+}
+
+.actions{
+ display:flex;
+ flex-wrap:wrap;
+ gap:6px;
+ margin-bottom:10px;
+}
+
+.actions button{font-size:12px}
+
+#actorFilter{
+ width:100%;
+ margin-bottom:10px;
+ border:1px solid var(--line);
+ background:white;
+ color:var(--black);
+}
+
+.table-wrap{width:100%}
+
+.schedule-scroll{
+ height:350px;
+ overflow-y:auto;
+ overflow-x:auto;
+ position:relative;
+ -webkit-overflow-scrolling:touch;
+}
+
+.schedule-scroll thead th{
+ position:sticky;
+ top:0;
+ z-index:2;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ table-layout:fixed;
+}
+
+th,td{
+ padding:9px 5px;
+ border-bottom:1px solid var(--line);
+ text-align:center;
+ vertical-align:middle;
+}
+
+th{
+ background:var(--soft);
+ color:var(--wine);
+ font-size:12px;
+}
+
+td{
+ font-size:13px;
+ overflow-wrap:anywhere;
+}
+
+.empty-message{
+ text-align:center;
+ padding:20px;
+ color:var(--muted);
+}
+
+.seat-record-list{
+ display:grid;
+ gap:18px;
+}
+
+.no-seats{
+ color:var(--muted);
+ font-size:13px;
+ padding:8px 2px;
+}
+
+.notes-intro{
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.6;
+ margin:0 0 14px;
+}
+
+.notes-editor{
+ background:rgba(169,0,79,.05);
+ border:1px solid var(--line);
+ border-radius:8px;
+ padding:12px;
+ margin-bottom:16px;
+}
+
+.notes-editor label{
+ display:block;
+ color:var(--wine);
+ font-size:12px;
+ font-weight:bold;
+ margin:12px 0 6px;
+}
+
+.notes-editor label:first-child{margin-top:0}
+
+.notes-editor select,
+.notes-editor textarea{
+ width:100%;
+ border:1px solid var(--line);
+ border-radius:6px;
+ background:white;
+ color:var(--black);
+ padding:10px;
+ font:inherit;
+ font-size:13px;
+}
+
+.notes-editor textarea{
+ resize:vertical;
+ line-height:1.7;
+ min-height:75px;
+}
+
+.notes-editor textarea:focus,
+.notes-editor select:focus{
+ outline:2px solid var(--pink);
+ outline-offset:1px;
+}
+
+.notes-save{
+ width:100%;
+ margin-top:12px;
+ padding:10px;
+ background:var(--wine);
+ color:white;
+}
+
+.notes-list{display:grid;gap:10px}
+
+.note-item{
+ background:white;
+ border:1px solid var(--line);
+ border-radius:8px;
+ padding:12px;
+}
+
+.note-item h3{
+ font-size:14px;
+ color:var(--wine);
+ margin:0 0 7px;
+}
+
+.note-item p{
+ font-size:13px;
+ line-height:1.8;
+ white-space:pre-wrap;
+ overflow-wrap:anywhere;
+}
+
+.note-date{
+ font-size:12px;
+ color:var(--muted);
+ margin-bottom:5px;
+}
+
+.note-stars{
+ color:var(--pink);
+ letter-spacing:2px;
+}
+
+.note-empty{
+ color:var(--muted);
+ text-align:center;
+ padding:18px 5px;
+ font-size:12px;
+ line-height:1.7;
+}
+
+.rating-stars{
+ display:flex;
+ justify-content:center;
+ gap:0;
+ white-space:nowrap;
+ margin-top:4px;
+}
+
+.rating-star{
+ border:0;
+ background:transparent;
+ color:#C9BFC3;
+ font-size:20px;
+ line-height:1;
+ padding:2px 3px;
+ cursor:pointer;
+}
+
+.rating-star.selected{color:var(--pink)}
+
+.note-actions{
+ display:flex;
+ gap:6px;
+ margin-top:12px;
+}
+
+.note-actions button{
+ font-size:11px;
+ padding:7px 12px;
+}
+
+@media(max-width:600px){
+ body{padding:4px 3px}
+
+ header{
+  padding:16px 12px;
+  margin-bottom:7px;
+  border-radius:8px;
+ }
+
+ header h1{
+  font-size:18px;
+  letter-spacing:1.5px;
+ }
+
+ header p{font-size:11px}
+
+ section{
+  padding:9px 7px;
+  margin-bottom:7px;
+  border-radius:8px;
+ }
+
+ h2{
+  font-size:15px;
+  margin:0 0 9px;
+ }
+
+ .cast-grid{gap:4px}
+
+ .cast-card{padding:8px 5px}
+
+ .cast-card h3{
+  font-size:12px;
+  margin-bottom:5px;
+ }
+
+ .cast-card p{
+  font-size:11px;
+  line-height:1.6;
+  letter-spacing:-.5px;
+  white-space:normal;
+ }
+
+ .stats{gap:5px}
+
+ .stat{
+  padding:9px 7px;
+  font-size:12px;
+ }
+
+ .stat strong{font-size:23px}
+
+ .actor-count-list{gap:5px}
+
+ .actor-count-card{padding:9px 6px}
+
+ .actor-count-card h3{
+  font-size:12px;
+  margin-bottom:7px;
+ }
+
+ .actor-count-person{
+  font-size:11px;
+  padding:7px 0;
+ }
+
+ .actor-count-number{font-size:11px}
+
+ .actions{
+  gap:4px;
+  margin-bottom:8px;
+ }
+
+ .actions button{
+  font-size:12px;
+  padding:8px;
+ }
+
+ th{
+  font-size:9px;
+  padding:6px 1px;
+  white-space:nowrap;
+ }
+
+ td{
+  font-size:10px;
+  padding:7px 1px;
+ }
+
+ .schedule-scroll{height:300px}
+
+ .note-item{padding:10px}
+
+ .note-item p{font-size:12px}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+ <h1>M. BUTTERFLY</h1>
+ <p>엠. 버터플라이</p>
+</header>
+
+<section>
+ <h2>CAST MEMBERS</h2>
+
+ <div class="cast-grid">
+  <div class="cast-card">
+   <h3>르네 갈리마르</h3>
+   <p>주민진 · 안재영 · 유현석</p>
+  </div>
+
+  <div class="cast-card">
+   <h3>송 릴링</h3>
+   <p>김바다 · 유태율 · 홍기범</p>
+  </div>
+
+  <div class="cast-card">
+   <h3>핑커튼</h3>
+   <p>장재웅 · 남민우</p>
+  </div>
+
+  <div class="cast-card">
+   <h3>아녜스 / 친</h3>
+   <p>안상은 · 전하영</p>
+  </div>
+
+  <div class="cast-card">
+   <h3>툴롱</h3>
+   <p>황만익 · 김승용</p>
+  </div>
+ </div>
+</section>
+
+<section>
+ <h2>MY RECORD</h2>
+
+ <div class="stats">
+  <div class="stat">
+   <strong id="totalCount">0</strong>
+   전체 공연 기록
+  </div>
+
+  <div class="stat">
+   <strong id="watchedCount">0</strong>
+   나의 관극 횟수
+  </div>
+ </div>
+</section>
+
+<section>
+ <h2>MY ACTOR COUNT</h2>
+ <div id="actorCountList" class="actor-count-list"></div>
+</section>
+
+<section>
+ <h2>PERFORMANCE SCHEDULE</h2>
+
+ <select id="actorFilter" onchange="render()">
+  <option value="">전체 배우 보기</option>
+ </select>
+
+ <div class="table-wrap">
+  <div class="schedule-scroll">
+   <table>
+    <thead>
+     <tr>
+      <th>날짜</th>
+      <th>시간</th>
+      <th>르네</th>
+      <th>송 릴링</th>
+      <th>핑커튼</th>
+      <th>아녜스/친</th>
+      <th>툴롱</th>
+      <th>관극</th>
+      <th>좌석</th>
+     </tr>
+    </thead>
+
+    <tbody id="scheduleBody"></tbody>
+   </table>
+  </div>
+ </div>
+</section>
+
+<section>
+ <h2>MY SEATS</h2>
+ <div id="seatRecordList" class="seat-record-list">
+  <div class="no-seats">
+   공연 일정과 좌석 배치가 추가되면 나의 좌석을 기록할 수 있어요.
+  </div>
+ </div>
+</section>
+
+<section>
+ <h2>MY NOTES</h2>
+
+ <p class="notes-intro">
+  공연이 끝난 뒤, 오래 기억하고 싶은 순간들을 기록하는 나만의 공간
+ </p>
+
+ <div class="notes-editor">
+  <label for="notePerformance">관람한 공연</label>
+  <select id="notePerformance" onchange="loadNoteForPerformance()">
+   <option value="">관극한 공연을 선택해 주세요.</option>
+  </select>
+
+  <label>오늘의 별점</label>
+  <div id="noteRating" class="rating-stars">
+   <button type="button" class="rating-star" onclick="selectNoteRating(1)">☆</button>
+   <button type="button" class="rating-star" onclick="selectNoteRating(2)">☆</button>
+   <button type="button" class="rating-star" onclick="selectNoteRating(3)">☆</button>
+   <button type="button" class="rating-star" onclick="selectNoteRating(4)">☆</button>
+   <button type="button" class="rating-star" onclick="selectNoteRating(5)">☆</button>
+  </div>
+
+  <label for="noteScene">기억하고 싶은 장면</label>
+  <textarea id="noteScene" placeholder="오늘 가장 기억에 남았던 장면은?"></textarea>
+
+  <label for="noteMemo">오늘의 감상</label>
+  <textarea id="noteMemo" rows="5" placeholder="배우의 표정, 대사, 무대, 감정 등 자유롭게 기록해 보세요."></textarea>
+
+  <button class="notes-save" onclick="saveNote()">감상 기록 저장</button>
+ </div>
+
+ <div id="noteList" class="notes-list"></div>
+</section>
+
+</div>
+
+<div class="actions">
+ <button class="secondary" onclick="document.getElementById('importFile').click()">기록 불러오기</button>
+ <input id="importFile" type="file" accept=".json" hidden onchange="importData(event)">
+ <button class="secondary" onclick="exportData()">기록 저장</button>
+</div>
+
+<script>
+const cast={
+ rene:["주민진","안재영","유현석"],
+ song:["김바다","유태율","홍기범"],
+ pinkerton:["장재웅","남민우"],
+ agnes:["안상은","전하영"],
+ toullon:["황만익","김승용"]
+};
+
+const roles=[
+ {title:"르네 갈리마르",key:"rene"},
+ {title:"송 릴링",key:"song"},
+ {title:"핑커튼",key:"pinkerton"},
+ {title:"아녜스 / 친",key:"agnes"},
+ {title:"툴롱",key:"toullon"}
+];
+
+let records=[];
+try{
+ records=JSON.parse(localStorage.getItem("mb_records")||"[]");
+ if(!Array.isArray(records))records=[];
+}catch(e){records=[];}
+
+let notes=[];
+try{
+ notes=JSON.parse(localStorage.getItem("mb_notes")||"[]");
+ if(!Array.isArray(notes))notes=[];
+}catch(e){notes=[];}
+
+let ratings={};
+try{
+ ratings=JSON.parse(localStorage.getItem("mb_ratings")||"{}");
+}catch(e){ratings={};}
+
+let noteRating=0;
+
+function save(){
+ localStorage.setItem("mb_records",JSON.stringify(records));
+ updateStats();
+}
+
+function saveRatings(){
+ localStorage.setItem("mb_ratings",JSON.stringify(ratings));
+}
+
+function ratingKey(r){
+ return `${r.date}_${r.time}`;
+}
+
+function formatDate(value){
+ if(!value)return "날짜 미정";
+ const p=value.split("-");
+ if(p.length!==3)return value;
+ const d=new Date(Number(p[0]),Number(p[1])-1,Number(p[2]));
+ return `${Number(p[1])}.${Number(p[2])} (${["일","월","화","수","목","금","토"][d.getDay()]})`;
+}
+
+function setupFilter(){
+ const select=document.getElementById("actorFilter");
+ const names=Object.values(cast).flat();
+
+ select.innerHTML=
+  '<option value="">전체 배우 보기</option>'+
+  names.map(n=>`<option value="${n}">${n}</option>`).join("");
+}
+
+function render(){
+ const body=document.getElementById("scheduleBody");
+ const filter=document.getElementById("actorFilter").value;
+
+ body.innerHTML="";
+
+ const shown=records.filter(r=>{
+  const actors=roles.map(role=>r[role.key]);
+  return !filter||actors.includes(filter);
+ });
+
+ if(shown.length===0){
+  const tr=document.createElement("tr");
+  const td=document.createElement("td");
+  td.colSpan=9;
+  td.className="empty-message";
+  td.textContent="등록된 공연 일정이 없습니다.";
+  tr.appendChild(td);
+  body.appendChild(tr);
+ }else{
+  shown.forEach(r=>{
+   const tr=document.createElement("tr");
+
+   const values=[
+    formatDate(r.date),
+    r.time||"-",
+    r.rene||"-",
+    r.song||"-",
+    r.pinkerton||"-",
+    r.agnes||"-",
+    r.toullon||"-"
+   ];
+
+   values.forEach(value=>{
+    const td=document.createElement("td");
+    td.textContent=value;
+    tr.appendChild(td);
+   });
+
+   const watched=document.createElement("td");
+   const check=document.createElement("input");
+   check.type="checkbox";
+   check.className="watched-check";
+   check.checked=!!r.watched;
+   check.addEventListener("change",()=>{
+    r.watched=check.checked;
+    save();
+    renderNotes();
+   });
+   watched.appendChild(check);
+   tr.appendChild(watched);
+
+   const seat=document.createElement("td");
+   seat.textContent="-";
+   tr.appendChild(seat);
+
+   body.appendChild(tr);
+  });
+ }
+
+ updateStats();
+ renderNotes();
+}
+
+function updateStats(){
+ document.getElementById("totalCount").textContent=records.length;
+ document.getElementById("watchedCount").textContent=
+  records.filter(r=>r.watched).length;
+
+ renderActorCounts();
+}
+
+function renderActorCounts(){
+ const target=document.getElementById("actorCountList");
+ target.innerHTML="";
+
+ roles.forEach(role=>{
+  const card=document.createElement("div");
+  card.className="actor-count-card";
+
+  const heading=document.createElement("h3");
+  heading.textContent=role.title;
+  card.appendChild(heading);
+
+  cast[role.key].forEach(actor=>{
+   const total=records.filter(r=>r[role.key]===actor).length;
+   const count=records.filter(r=>r.watched&&r[role.key]===actor).length;
+
+   const person=document.createElement("div");
+   person.className="actor-count-person";
+
+   const name=document.createElement("span");
+   name.textContent=actor;
+
+   const number=document.createElement("span");
+   number.className="actor-count-number";
+   number.textContent=count+"/"+total;
+
+   person.append(name,number);
+   card.appendChild(person);
+  });
+
+  target.appendChild(card);
+ });
+}
+
+function selectNoteRating(score){
+ noteRating=score;
+
+ document.querySelectorAll("#noteRating .rating-star")
+ .forEach((star,index)=>{
+  star.textContent=index<score?"★":"☆";
+  star.classList.toggle("selected",index<score);
+ });
+}
+
+function saveNote(){
+ const index=document.getElementById("notePerformance").value;
+ if(index==="")return;
+
+ const r=records[index];
+ const key=ratingKey(r);
+
+ if(noteRating>0){
+  ratings[key]=noteRating;
+  saveRatings();
+ }
+
+ const scene=document.getElementById("noteScene").value;
+ const memo=document.getElementById("noteMemo").value;
+
+ if(scene.trim()||memo.trim()){
+  const existing=notes.findIndex(n=>n.recordKey===key);
+  const note={recordKey:key,scene,memo};
+
+  if(existing>=0)notes[existing]=note;
+  else notes.push(note);
+
+  localStorage.setItem("mb_notes",JSON.stringify(notes));
+ }
+
+ renderNotes();
+}
+
+function loadNoteForPerformance(){
+ const index=document.getElementById("notePerformance").value;
+
+ const scene=document.getElementById("noteScene");
+ const memo=document.getElementById("noteMemo");
+
+ if(index===""){
+  noteRating=0;
+  scene.value="";
+  memo.value="";
+ }else{
+  const r=records[index];
+  const key=ratingKey(r);
+  noteRating=ratings[key]||0;
+
+  const note=notes.find(n=>n.recordKey===key);
+  scene.value=note?note.scene:"";
+  memo.value=note?note.memo:"";
+ }
+
+ selectNoteRating(noteRating);
+}
+
+function deleteNote(key){
+ if(!confirm("이 관극 기록과 별점을 삭제할까요?"))return;
+
+ notes=notes.filter(n=>n.recordKey!==key);
+ delete ratings[key];
+
+ localStorage.setItem("mb_notes",JSON.stringify(notes));
+ saveRatings();
+
+ renderNotes();
+ loadNoteForPerformance();
+}
+
+function renderNotes(){
+ const select=document.getElementById("notePerformance");
+ const list=document.getElementById("noteList");
+
+ select.innerHTML=
+  '<option value="">관극한 공연을 선택해 주세요.</option>';
+
+ records.forEach((r,index)=>{
+  if(!r.watched)return;
+
+  const option=document.createElement("option");
+  option.value=index;
+  option.textContent=
+   `${formatDate(r.date)} ${r.time||""} · 르네 ${r.rene||"-"} / 송 릴링 ${r.song||"-"}`;
+
+  select.appendChild(option);
+ });
+
+ const savedRecords=records.filter(r=>{
+  const key=ratingKey(r);
+  return notes.some(n=>n.recordKey===key)||ratings[key];
+ });
+
+ if(savedRecords.length===0){
+  list.innerHTML=
+   '<div class="note-empty">아직 작성한 감상 기록이 없습니다.<br>첫 번째 관극 일기를 남겨보세요.</div>';
+  return;
+ }
+
+ list.innerHTML="";
+
+ savedRecords.forEach(r=>{
+  const key=ratingKey(r);
+  const note=notes.find(n=>n.recordKey===key);
+  const score=ratings[key]||0;
+
+  const item=document.createElement("div");
+  item.className="note-item";
+
+  const title=document.createElement("h3");
+  title.textContent=`${formatDate(r.date)} ${r.time||""}`;
+
+  const castInfo=document.createElement("p");
+  castInfo.textContent=
+   `르네 ${r.rene||"-"} / 송 릴링 ${r.song||"-"} / 핑커튼 ${r.pinkerton||"-"}`;
+
+  const stars=document.createElement("p");
+  stars.className="note-stars";
+  stars.textContent="★".repeat(score)+"☆".repeat(5-score);
+
+  item.append(title,castInfo,stars);
+
+  if(note?.scene){
+   const scene=document.createElement("p");
+   scene.textContent="기억하고 싶은 장면\n"+note.scene;
+   item.appendChild(scene);
+  }
+
+  if(note?.memo){
+   const memo=document.createElement("p");
+   memo.textContent="오늘의 감상\n"+note.memo;
+   item.appendChild(memo);
+  }
+
+  const deleteButton=document.createElement("button");
+  deleteButton.textContent="기록 삭제";
+  deleteButton.className="secondary";
+  deleteButton.onclick=()=>deleteNote(key);
+
+  item.appendChild(deleteButton);
+  list.appendChild(item);
+ });
+}
+
+function exportData(){
+ const payload={
+  version:1,
+  records,
+  notes,
+  ratings
+ };
+
+ const blob=new Blob(
+  [JSON.stringify(payload,null,2)],
+  {type:"application/json"}
+ );
+
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;
+ a.download="m-butterfly-records.json";
+ a.click();
+ URL.revokeObjectURL(url);
+}
+
+function importData(event){
+ const file=event.target.files[0];
+ if(!file)return;
+
+ const reader=new FileReader();
+
+ reader.onload=()=>{
+  try{
+   const data=JSON.parse(reader.result);
+
+   if(data&&Array.isArray(data.records)){
+    records=data.records;
+    notes=Array.isArray(data.notes)?data.notes:[];
+    ratings=data.ratings&&typeof data.ratings==="object"
+     ?data.ratings:{};
+   }else{
+    throw new Error();
+   }
+
+   localStorage.setItem("mb_notes",JSON.stringify(notes));
+   saveRatings();
+   save();
+   render();
+
+   alert("엠. 버터플라이 기록을 불러왔습니다.");
+  }catch(e){
+   alert("올바른 기록 파일이 아닙니다.");
+  }
+
+  event.target.value="";
+ };
+
+ reader.readAsText(file);
+}
+
+/* 시작 */
+setupFilter();
+render();
+</script>
+</body>
+</html>
