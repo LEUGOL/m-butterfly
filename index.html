@@ -1493,6 +1493,13 @@ flex-basis:10px;
 height:12px;
 }
 }
+ .seat-select-button{
+ padding:4px 8px;
+ font-size:11px;
+ min-height:26px;
+ line-height:1.2;
+ white-space:nowrap;
+}
 </style>
 </head>
 
@@ -2261,6 +2268,11 @@ function importData(event){
 
    if(data&&Array.isArray(data.records)){
     records=data.records;
+    records.forEach(r=>{
+ if(!Array.isArray(r.seatSelections)){
+  r.seatSelections=[];
+ }
+});
     notes=Array.isArray(data.notes)?data.notes:[];
     ratings=data.ratings&&typeof data.ratings==="object"
      ?data.ratings:{};
