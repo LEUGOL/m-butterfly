@@ -1670,94 +1670,47 @@ height:12px;
    </div>
    <button class="secondary" onclick="closeSeatMap()">닫기</button>
   </div>
-
-  <div class="stage">STAGE</div>
+    <div class="stage">STAGE</div>
 
   <div class="floor-tabs">
-   <button type="button" class="floor-tab active" onclick="showFloor(1)">1층</button>
-   <button type="button" class="floor-tab" onclick="showFloor(2)">2층</button>
+    <button type="button" class="floor-tab active" onclick="showFloor(1)">1층</button>
+    <button type="button" class="floor-tab" onclick="showFloor(2)">2층</button>
   </div>
 
   <div class="seat-legend">
-   <span><span class="legend-square"></span>선택 가능</span>
-   <span><span class="legend-square selected"></span>내 좌석</span>
-   <span><span class="legend-square" style="background:#D9D5D2"></span>통로</span>
+    <span><span class="legend-square"></span>선택 가능</span>
+    <span><span class="legend-square selected"></span>내 좌석</span>
+    <span><span class="legend-square" style="background:#D8D1D4"></span>통로</span>
   </div>
 
   <div class="seat-map-scroll">
-   <div id="firstFloorMap" class="seat-map-layout">
-    <div class="seat-map">
-     <div class="seat-block left">
-      <h3>LEFT</h3>
-      <div id="leftSeats"></div>
-     </div>
-     <div class="seat-block center">
-      <h3>CENTER</h3>
-      <div id="centerSeats"></div>
-     </div>
-     <div class="seat-block right">
-      <h3>RIGHT</h3>
-      <div id="rightSeats"></div>
-     </div>
+    <div id="firstFloorMap" class="seat-map-layout">
+      <div class="seat-map">
+        <div class="seat-block left">
+          <h3>LEFT</h3>
+          <div id="leftSeats"></div>
+        </div>
+        <div class="seat-block center">
+          <h3>CENTER</h3>
+          <div id="centerSeats"></div>
+        </div>
+        <div class="seat-block right">
+          <h3>RIGHT</h3>
+          <div id="rightSeats"></div>
+        </div>
+      </div>
+      <div id="nSeats" class="seat-n-row"></div>
     </div>
-    <div id="nSeats" class="seat-n-row"></div>
-   </div>
 
-   <div id="secondFloorMap" class="second-floor-map" style="display:none;">
-    <div id="secondFloorSeats"></div>
-   </div>
+    <div id="secondFloorMap" class="second-floor-map">
+      <div id="secondFloorSeats"></div>
+    </div>
   </div>
 
   <div class="seat-bottom">
-   <p>선택한 좌석</p>
-   <div id="selectedSeatText">선택한 좌석이 없습니다.</div>
-   <button class="secondary" onclick="clearSeats()">선택 초기화</button>
-  </div>
- </div>
-</div>
-
-    <div class="stage">STAGE</div>
-
-    <div class="floor-tabs">
-      <button type="button" class="floor-tab active" onclick="showFloor(1)">1층</button>
-      <button type="button" class="floor-tab" onclick="showFloor(2)">2층</button>
-    </div>
-
-    <div class="seat-legend">
-      <span><span class="legend-square"></span>선택 가능</span>
-      <span><span class="legend-square selected"></span>내 좌석</span>
-      <span><span class="legend-square" style="background:#D8D1D4"></span>통로</span>
-    </div>
-
-    <div class="seat-map-scroll">
-      <div id="firstFloorMap" class="seat-map-layout">
-        <div class="seat-map">
-          <div class="seat-block left">
-            <h3>LEFT</h3>
-            <div id="leftSeats"></div>
-          </div>
-          <div class="seat-block center">
-            <h3>CENTER</h3>
-            <div id="centerSeats"></div>
-          </div>
-          <div class="seat-block right">
-            <h3>RIGHT</h3>
-            <div id="rightSeats"></div>
-          </div>
-        </div>
-        <div id="nSeats" class="seat-n-row"></div>
-      </div>
-
-      <div id="secondFloorMap" class="second-floor-map">
-        <div id="secondFloorSeats"></div>
-      </div>
-    </div>
-
-    <div class="seat-bottom">
-      <p>선택한 좌석</p>
-      <div id="selectedSeatText">선택한 좌석이 없습니다.</div>
-      <button class="secondary" onclick="clearSeats()">선택 초기화</button>
-    </div>
+    <p>선택한 좌석</p>
+    <div id="selectedSeatText">선택한 좌석이 없습니다.</div>
+    <button class="secondary" onclick="clearSeats()">선택 초기화</button>
   </div>
 </div>
 <script>
