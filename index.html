@@ -1912,7 +1912,12 @@ const extraRecords=records.filter(r=>
 records=[...mergedRecords,...extraRecords].sort((a,b)=>
  `${a.date}_${a.time}`.localeCompare(`${b.date}_${b.time}`)
 );
-
+// 기존 관극 기록의 좌석 데이터 유지
+records.forEach(r=>{
+ if(!Array.isArray(r.seatSelections)){
+  r.seatSelections=[];
+ }
+});
 let notes=[];
 try{
  notes=JSON.parse(localStorage.getItem("mb_notes")||"[]");
@@ -2009,8 +2014,21 @@ function render(){
    tr.appendChild(watched);
 
    const seat=document.createElement("td");
-   seat.textContent="-";
-   tr.appendChild(seat);
+const seatButton=document.createElement("button");
+
+seatButton.type="button";
+seatButton.className="seat-select-button";
+seatButton.textContent=
+ r.seatSelections?.length
+ ?r.seatSelections.map(seatDescription).join(", ")
+ :"좌석 선택";
+
+seatButton.onclick=()=>{
+ openSeatMap(records.indexOf(r));
+};
+
+seat.appendChild(seatButton);
+tr.appendChild(seat);
 
    body.appendChild(tr);
   });
