@@ -465,6 +465,554 @@ td{
 
  .note-item p{font-size:12px}
 }
+ 
+/* =========================
+   SEAT MAP - NARGOLD LAYOUT
+========================= */
+
+/* MY SEATS */
+.seat-record{
+ padding:12px 0 16px;
+ border-bottom:1px solid var(--line);
+}
+.seat-record:last-child{border-bottom:0}
+.seat-record-info{margin-bottom:10px}
+.seat-record-date{
+ font-weight:bold;
+ color:var(--wine);
+ font-size:14px;
+}
+.seat-record-cast{
+ font-size:12px;
+ color:var(--muted);
+ margin-top:4px;
+}
+.mini-stage{
+ margin:8px auto 12px;
+ padding:5px;
+ max-width:260px;
+ text-align:center;
+ color:white;
+ background:var(--black);
+ border-radius:4px;
+ font-size:10px;
+ letter-spacing:3px;
+}
+.mini-seat-map-scroll,
+.seat-map-scroll{
+ width:100%;
+ display:flex;
+ justify-content:center;
+ overflow-x:auto;
+ overflow-y:hidden;
+ -webkit-overflow-scrolling:touch;
+ padding-bottom:3px;
+}
+.mini-seat-map-layout,
+.seat-map-layout{
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ margin:0 auto;
+ width:max-content;
+ min-width:0;
+ padding:8px;
+ background:rgba(233,229,230,.7);
+ border-radius:10px;
+}
+.mini-seat-map{
+ display:flex;
+ justify-content:flex-start;
+ align-items:flex-start;
+ gap:0;
+ width:max-content;
+ min-width:0;
+ margin:0;
+ flex:0 0 auto;
+}
+.mini-seat-block{
+ flex:0 0 auto;
+ padding:7px 3px 0;
+ background:rgba(233,229,230,.7);
+ border-radius:5px;
+}
+.mini-seat-block.left{margin-right:12px}
+.mini-seat-block.center{margin-right:0}
+.mini-seat-block.right{margin-left:0}
+.mini-seat-block h4{
+ text-align:center;
+ margin:0 0 6px;
+ color:var(--wine);
+ font-size:10px;
+}
+.mini-seat-row{
+ display:flex;
+ align-items:center;
+ justify-content:flex-start;
+ gap:2px;
+ min-height:14px;
+ margin:2px 0;
+ white-space:nowrap;
+}
+.mini-row-label{
+ width:12px;
+ flex-shrink:0;
+ text-align:center;
+ color:var(--muted);
+ font-size:8px;
+}
+.mini-seat{
+ display:block;
+ width:11px;
+ height:13px;
+ min-width:11px;
+ padding:0;
+ margin:0;
+ border:1px solid var(--line);
+ border-radius:2px;
+ background:#fff;
+ color:var(--black);
+ font-size:8px;
+ line-height:11px;
+ text-align:center;
+ flex-shrink:0;
+}
+.mini-seat.selected{
+ background:var(--pink);
+ border-color:var(--pink);
+ color:white;
+ font-weight:bold;
+}
+.mini-seat-gap,.mini-pillar{
+ width:11px;
+ height:13px;
+ flex-shrink:0;
+}
+.mini-pillar{
+ border:1px dashed #B9AAA5;
+ border-radius:2px;
+ background:#D9D5D2;
+}
+.mini-seat-row.stagger-a{transform:translateX(5px)}
+.mini-seat-row.stagger-b{transform:translateX(-5px)}
+.mini-seat-row.row-J{margin-top:17px}
+.mini-n-row{
+ display:flex;
+ align-items:center;
+ justify-content:flex-start;
+ gap:2px;
+ flex:0 0 auto;
+ width:max-content;
+ padding:0 3px;
+ white-space:nowrap;
+}
+.mini-n-row .mini-seat-gap{
+ width:16px;
+ min-width:16px;
+}
+.mini-second-floor{
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ gap:3px;
+ width:max-content;
+ margin-top:10px;
+ padding-top:8px;
+ border-top:1px solid var(--line);
+ align-self:center;
+}
+.mini-second-floor-row{
+ display:flex;
+ align-items:center;
+ gap:2px;
+ min-height:14px;
+ white-space:nowrap;
+}
+.mini-second-floor-row .mini-row-label{
+ width:12px;
+ flex:0 0 12px;
+}
+.mini-second-floor-row .mini-seat-gap{
+ width:11px;
+ height:13px;
+ flex:0 0 11px;
+}
+.mini-second-floor-row .mini-seat{
+ width:11px;
+ height:13px;
+ min-width:11px;
+ flex:0 0 11px;
+}
+.mini-legend{
+ text-align:center;
+ font-size:10px;
+ color:var(--muted);
+ margin-top:8px;
+}
+.mini-legend-mark{
+ display:inline-block;
+ width:10px;
+ height:10px;
+ background:var(--pink);
+ border-radius:2px;
+ vertical-align:middle;
+ margin-right:4px;
+}
+
+/* 좌석 선택 모달 */
+.seat-modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:1000;
+ background:rgba(37,33,36,.78);
+ padding:8px;
+ overflow-y:auto;
+}
+.seat-modal.open{
+ display:flex;
+ justify-content:center;
+ align-items:flex-start;
+}
+.seat-window{
+ width:100%;
+ max-width:1000px;
+ margin:8px auto;
+ padding:16px;
+ background:#F3F2F0;
+ border-radius:10px;
+}
+.seat-top{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:8px;
+}
+.seat-top h2{margin-bottom:5px}
+#seatPerformance{
+ font-size:13px;
+ color:var(--muted);
+ margin:0;
+}
+.stage{
+ margin:14px auto;
+ padding:10px;
+ max-width:400px;
+ text-align:center;
+ color:white;
+ background:var(--black);
+ border-radius:5px;
+ letter-spacing:4px;
+}
+.floor-tabs{
+ display:flex;
+ justify-content:center;
+ gap:8px;
+ margin:10px 0;
+}
+.floor-tab{
+ border:1px solid var(--pink);
+ background:#fff;
+ color:var(--wine);
+ border-radius:20px;
+ padding:7px 20px;
+ cursor:pointer;
+}
+.floor-tab.active{
+ background:var(--wine);
+ color:white;
+}
+.seat-legend{
+ display:flex;
+ justify-content:center;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-bottom:13px;
+ font-size:12px;
+}
+.legend-square{
+ display:inline-block;
+ width:15px;
+ height:15px;
+ border:1px solid var(--line);
+ border-radius:3px;
+ vertical-align:middle;
+ margin-right:4px;
+ background:#fff;
+}
+.legend-square.selected{
+ background:var(--pink);
+}
+.seat-map{
+ display:flex;
+ gap:0;
+ justify-content:flex-start;
+ align-items:flex-start;
+ width:max-content;
+ min-width:0;
+ flex:0 0 auto;
+}
+.seat-block{
+ flex:0 0 auto;
+ padding:9px 5px 0;
+ background:rgba(233,229,230,.7);
+ border-radius:8px;
+}
+.seat-block.left{margin-right:16px}
+.seat-block.center{margin-right:0}
+.seat-block.right{margin-left:0}
+.seat-block h3{
+ text-align:center;
+ margin:0 0 9px;
+ color:var(--wine);
+ font-size:13px;
+}
+.seat-row{
+ display:flex;
+ align-items:center;
+ justify-content:flex-start;
+ gap:2px;
+ min-height:25px;
+ margin:3px 0;
+ white-space:nowrap;
+}
+.row-label{
+ width:18px;
+ flex-shrink:0;
+ text-align:center;
+ color:var(--muted);
+ font-size:10px;
+}
+.seat{
+ width:22px;
+ height:23px;
+ min-width:22px;
+ padding:0;
+ margin:0;
+ border:1px solid var(--line);
+ border-radius:4px;
+ background:#fff;
+ color:var(--black);
+ font-size:10px;
+ line-height:21px;
+ flex-shrink:0;
+}
+.seat.selected{
+ background:var(--pink);
+ border-color:var(--pink);
+ color:white;
+ font-weight:bold;
+}
+.seat-gap,.pillar{
+ width:22px;
+ height:23px;
+ flex-shrink:0;
+}
+.pillar{
+ border:1px dashed #AAB9A8;
+ border-radius:3px;
+ background:#D9D5D2;
+}
+.seat-row.stagger-a{transform:translateX(5px)}
+.seat-row.stagger-b{transform:translateX(-5px)}
+.seat-row.row-J{margin-top:17px}
+.seat-n-row{
+ display:flex;
+ align-items:center;
+ justify-content:flex-start;
+ gap:2px;
+ flex:0 0 auto;
+ width:max-content;
+ padding:0 3px;
+ white-space:nowrap;
+}
+.seat-n-row .n-gap{width:22px}
+.second-floor-map{
+ display:none;
+ flex:0 0 auto;
+ width:max-content;
+ margin:0 auto;
+ padding:12px 0;
+}
+.second-floor-row{
+ display:flex;
+ align-items:center;
+ gap:4px;
+ margin-bottom:5px;
+}
+.second-floor-row .row-label{
+ width:24px;
+ flex:0 0 24px;
+ text-align:center;
+ font-weight:bold;
+}
+.second-floor-row .seat{
+ flex:0 0 26px;
+ width:26px;
+ height:26px;
+}
+.seat-bottom{
+ margin-top:16px;
+ padding-top:13px;
+ border-top:1px solid var(--line);
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+}
+.seat-bottom p{
+ margin:0;
+}
+#selectedSeatText{
+ color:var(--wine);
+ font-weight:bold;
+ font-size:13px;
+ line-height:1.8;
+ overflow-wrap:anywhere;
+ margin:8px 0 12px;
+}
+.seat-bottom button{
+ display:block;
+ margin:3px auto 0 0;
+ align-self:flex-start;
+}
+
+/* 모바일 */
+@media(max-width:600px){
+ .mini-seat-map-scroll,
+ .seat-map-scroll{
+  justify-content:flex-start;
+  margin-left:0;
+ }
+ .mini-seat-map-layout,
+ .seat-map-layout{
+  margin-left:0;
+  margin-right:0;
+ }
+ .mini-seat-map{
+  justify-content:flex-start;
+  min-width:max-content;
+ }
+ .mini-seat-block.left{margin-right:7px}
+ .mini-seat-block{
+  padding-left:2px;
+  padding-right:2px;
+ }
+ .mini-seat-row.stagger-a,
+ .seat-row.stagger-a{transform:translateX(3px)}
+ .mini-seat-row.stagger-b,
+ .seat-row.stagger-b{transform:translateX(-3px)}
+ .mini-n-row,.seat-n-row{
+  margin:0;
+  padding:0 2px;
+  gap:1px;
+ }
+ .mini-n-row .mini-seat-gap{
+  width:10px;
+  min-width:10px;
+ }
+ .seat-n-row .seat{
+  width:12px;
+  min-width:12px;
+  height:15px;
+  font-size:7px;
+  line-height:13px;
+ }
+ .seat-n-row .row-label{width:11px}
+ .seat-n-row .n-gap{width:12px}
+ .seat-map{
+  justify-content:flex-start;
+  min-width:max-content;
+ }
+ .seat-block.left{margin-right:8px}
+ .seat-block{padding-left:1px;padding-right:1px}
+ .seat-window{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  padding:10px 3px;
+  margin:3px auto;
+ }
+ .seat-map-scroll{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  overflow-x:auto;
+  overflow-y:hidden;
+ }
+ .second-floor-map{
+  margin-left:0;
+  margin-right:0;
+ }
+ .seat-top{padding:0 5px}
+ .seat-top h2{font-size:15px}
+ #seatPerformance{font-size:10px}
+ .seat-top button{font-size:10px;padding:6px 9px}
+ .stage{
+  margin:9px auto;
+  padding:7px;
+  font-size:11px;
+  max-width:75%;
+ }
+ .seat-legend{
+  gap:7px;
+  font-size:10px;
+  margin-bottom:8px;
+ }
+ .legend-square{width:12px;height:12px}
+ .seat-map{gap:2px}
+ .seat-block{padding:5px 1px;border-radius:5px}
+ .seat-block h3{
+  font-size:9px;
+  margin-bottom:6px;
+  white-space:nowrap;
+ }
+ .seat-row{
+  gap:1px;
+  min-height:16px;
+  margin:2px 0;
+ }
+ .row-label{width:11px;font-size:8px}
+ .seat{
+  width:12px;
+  min-width:12px;
+  height:15px;
+  font-size:7px;
+  line-height:13px;
+  border-radius:2px;
+ }
+ .seat-gap,.pillar{width:12px;height:15px}
+ .seat-bottom{margin-top:10px;padding:9px 5px 0}
+ #selectedSeatText{font-size:11px}
+ .seat-bottom button{font-size:10px;padding:7px 9px}
+ .second-floor-row{gap:2px}
+ .second-floor-row .row-label{
+  width:16px;
+  flex-basis:16px;
+ }
+ .second-floor-row .seat{
+  flex:0 0 20px;
+  width:20px;
+  height:22px;
+  font-size:9px;
+ }
+ .mini-second-floor-row .mini-row-label{
+  width:10px;
+  flex-basis:10px;
+ }
+ .mini-second-floor-row .mini-seat-gap{
+  width:10px;
+  flex-basis:10px;
+  height:12px;
+ }
+ .mini-second-floor-row .mini-seat{
+  width:10px;
+  min-width:10px;
+  flex-basis:10px;
+  height:12px;
+ }
+}
+
 </style>
 </head>
 
@@ -607,6 +1155,61 @@ td{
  <button class="secondary" onclick="document.getElementById('importFile').click()">기록 불러오기</button>
  <input id="importFile" type="file" accept=".json" hidden onchange="importData(event)">
  <button class="secondary" onclick="exportData()">기록 저장</button>
+</div>
+
+<div class="seat-modal" id="seatModal">
+ <div class="seat-window">
+  <div class="seat-top">
+   <div>
+    <h2>MY SEAT</h2>
+    <p id="seatPerformance"></p>
+   </div>
+   <button class="secondary" onclick="closeSeatMap()">닫기</button>
+  </div>
+
+  <div class="stage">STAGE</div>
+
+  <div class="floor-tabs">
+   <button type="button" class="floor-tab active" onclick="showFloor(1)">1층</button>
+   <button type="button" class="floor-tab" onclick="showFloor(2)">2층</button>
+  </div>
+
+  <div class="seat-legend">
+   <span><span class="legend-square"></span>선택 가능</span>
+   <span><span class="legend-square selected"></span>내 좌석</span>
+   <span><span class="legend-square" style="background:#D9D5D2"></span>통로</span>
+  </div>
+
+  <div class="seat-map-scroll">
+   <div id="firstFloorMap" class="seat-map-layout">
+    <div class="seat-map">
+     <div class="seat-block left">
+      <h3>LEFT</h3>
+      <div id="leftSeats"></div>
+     </div>
+     <div class="seat-block center">
+      <h3>CENTER</h3>
+      <div id="centerSeats"></div>
+     </div>
+     <div class="seat-block right">
+      <h3>RIGHT</h3>
+      <div id="rightSeats"></div>
+     </div>
+    </div>
+    <div id="nSeats" class="seat-n-row"></div>
+   </div>
+
+   <div id="secondFloorMap" class="second-floor-map" style="display:none;">
+    <div id="secondFloorSeats"></div>
+   </div>
+  </div>
+
+  <div class="seat-bottom">
+   <p>선택한 좌석</p>
+   <div id="selectedSeatText">선택한 좌석이 없습니다.</div>
+   <button class="secondary" onclick="clearSeats()">선택 초기화</button>
+  </div>
+ </div>
 </div>
 
 <script>
